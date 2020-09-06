@@ -14,36 +14,41 @@ router.get('/api', async function (req, res, next) {
 
     // await values from promise until resolved, and able to send to client
     const result = await Promise.all([a, b, c]);
-
     const dataObj = {
         data: result
     };
     res.send(dataObj);
 });
 
-
-// when user hits gravity button, 
+/**
+ * 
+ */
 router.get('/api/gravity', function (req, res) {
     const currentGravity = req.query.gravity;
     const planetName = req.query.planet;
     filter.filterGravity(currentGravity, planetName, res);
 });
 
-// when user hits escape button, 
+/**
+ *  */
 router.get('/api/escape', function (req, res) {
     const currentEscape = req.query.escape;
     const planetName = req.query.planet;
     filter.filterEscape(currentEscape, planetName, res);
 });
 
-// when user hits radius button, 
+/**
+ * 
+ */
 router.get('/api/radius', function (req, res) {
     const currentRadius = req.query.radius;
     const planetName = req.query.planet;
     filter.filterRadius(currentRadius, planetName, res);
 });
 
-// when user hits density button, 
+/**
+ * 
+ */
 router.get('/api/density', function (req, res) {
     const currentDensity = req.query.density;
     const planetName = req.query.planet;
@@ -52,11 +57,10 @@ router.get('/api/density', function (req, res) {
 
 
 /**
- * Get relevant planet data from OpenData Solar System API
+ * Get relevant planet data from the Solar System OpenData API
  * @param {string} planet Planet query made by user
  */
 function getPlanetData(planet) {
-
     let url = `https://api.le-systeme-solaire.net/rest/bodies/${planet}`;
     return axios.get(url)
         .then((response) => response.data)
@@ -115,10 +119,10 @@ function getImagesNASA(planet) {
             let imgTitle = "";
             let imgLink = "";
 
-            // if error, return abritrary data
+            // if error with data returned, send abritrary data
             try {
-                imgData.collection.items[randomNum].data[0].title;
-                imgData.collection.items[randomNum].links[0].href;
+                imgTitle = imgData.collection.items[randomNum].data[0].title;
+                imgLink = imgData.collection.items[randomNum].links[0].href;
             } catch (err) {
                 imgTitle = "N/A";
                 imgLink = "N/A"

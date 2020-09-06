@@ -8,6 +8,7 @@ import 'ag-grid-community/dist/styles/ag-theme-balham-dark.css';
 const nameWidth = 75, gravWidth = 130, escWidth = 120, radWidth = 120, densityWidth = 130, moonWidth = 80;
 const totalWidth = nameWidth + gravWidth + escWidth + radWidth + densityWidth + moonWidth;
 
+// AgGrid Columns
 const columns = [
     { headerName: "Name", field: "name", width: nameWidth },
     { headerName: "Gravity (m/s ^ 2)", field: "gravity", width: gravWidth },
@@ -18,7 +19,6 @@ const columns = [
 ];
 
 function App() {
-
     const [text, setText] = useState("");          // search bar
     const [searchLoading, setSearchLoading] = useState(false);
     const [buttonLoading, setButtonLoading] = useState(false);
@@ -50,7 +50,8 @@ function App() {
     // get data from backend, display on LHS
     const callAPI = () => {
         setSearchLoading(true);   // data is loading
-        let url = `http://localhost:5000/api?planet=${text}`;
+        // let url = `http://localhost:5000/api?planet=${text}`;
+        let url = `${window.location.origin}/api?planet=${text}`;
         fetch(url)
             .then(res => res.json())
             .then(imgData => {
@@ -64,11 +65,11 @@ function App() {
     }
 
     /**
-     * 
+     * Fetch data from backend related to planetName, and display on RHS of screen
      * @param {String} planetName Name of planet returned from performing filter
      */
     const getFilteredData = (planetName) => {
-        let url = `http://localhost:5000/api?planet=${planetName}`;
+        let url = `${window.location.origin}/api?planet=${planetName}`;
         fetch(url)
             .then(res => res.json())
             .then(queriedData => {
@@ -89,7 +90,7 @@ function App() {
             setButtonLoading(true);
             let currentGravity = rowData[0].gravity;
             let currentPlanet = rowData[0].name;
-            let url = `http://localhost:3000/api/gravity?gravity=${currentGravity}&planet=${currentPlanet}`;
+            let url = `${window.location.origin}/api/gravity?gravity=${currentGravity}&planet=${currentPlanet}`;
             fetch(url)
                 .then(res => res.json())
                 .then(planetName => {
@@ -100,7 +101,7 @@ function App() {
                 .catch(e => console.log(e))
         } catch (err) {
             console.log(err);
-            // display error message about no previous data
+            setButtonLoading(false);
         }
     }
 
@@ -109,7 +110,7 @@ function App() {
             setButtonLoading(true);
             let currentEscape = rowData[0].escape;
             let currentPlanet = rowData[0].name;
-            let url = `http://localhost:3000/api/escape?escape=${currentEscape}&planet=${currentPlanet}`;
+            let url = `${window.location.origin}/api/escape?escape=${currentEscape}&planet=${currentPlanet}`;
             fetch(url)
                 .then(res => res.json())
                 .then(planetName => {
@@ -120,7 +121,7 @@ function App() {
                 .catch(e => console.log(e))
         } catch (err) {
             console.log(err);
-            // display error message about no previous data
+            setButtonLoading(false);
         }
     }
 
@@ -129,7 +130,7 @@ function App() {
             setButtonLoading(true);
             let currentRadius = rowData[0].radius;
             let currentPlanet = rowData[0].name;
-            let url = `http://localhost:3000/api/radius?radius=${currentRadius}&planet=${currentPlanet}`;
+            let url = `${window.location.origin}/api/radius?radius=${currentRadius}&planet=${currentPlanet}`;
             fetch(url)
                 .then(res => res.json())
                 .then(planetName => {
@@ -140,7 +141,7 @@ function App() {
                 .catch(e => console.log(e))
         } catch (err) {
             console.log(err);
-            // display error message about no previous data
+            setButtonLoading(false);
         }
     }
 
@@ -149,7 +150,7 @@ function App() {
             setButtonLoading(true);
             let currentDensity = rowData[0].density;
             let currentPlanet = rowData[0].name;
-            let url = `http://localhost:3000/api/density?density=${currentDensity}&planet=${currentPlanet}`;
+            let url = `${window.location.origin}/api/density?density=${currentDensity}&planet=${currentPlanet}`;
             fetch(url)
                 .then(res => res.json())
                 .then(planetName => getFilteredData(planetName))
@@ -157,7 +158,7 @@ function App() {
                 .catch(e => console.log(e))
         } catch (err) {
             console.log(err);
-            // display error message about no previous data
+            setButtonLoading(false);
         }
     }
 

@@ -14,14 +14,15 @@
         [X] create .env for token
     [X] package data up in an object
     [X] send data to client
-    [] error handling 
-        [] no value entered
-        [] number entered
+    [X] error handling 
+        [X] no value entered
+        [X] number entered
     [X] filtering by density for neptune not working ??
         [X] it returns a dwarf planet "Makemake" with 1.4 density
         [X] && data[i].enlighsName != "136472 Makemake"
 
 * Client
+    [] window.location.origin
     [X] search bar
         [X] error handling
         [X] loading bar
@@ -31,7 +32,7 @@
         [X] add planet name to table
     [X] display NASA image
         [X] display 2 random
-    [] style box for tweets
+    [] style boxes for tweets
     [X] make buttons allowing comparison between planets
         [X] add error handling
             [X] hitting buttons before planet has been searched
@@ -50,8 +51,15 @@
 * Deployment
     [] create bare AWS instance
     [] create .env file with twitter token
+        [] vi .env
+            [] TOKEN=xxxxxxx
     [] create dockerfile
-    [] pull project from laptop to instance from GitHub
-        [] store in /app directory
+        [] client
+        [] server
+        [] docker compose
+    [] pull code from GitHub to ec2
+    [] build / compose
     [] push image to dockerhub
     [] test
+        [] pulling
+        [] running
