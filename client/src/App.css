@@ -1,0 +1,87 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.planet-search {
+    position: absolute;
+    top: 20px;
+    left: 100px;
+}
+
+.img1 {
+    position: absolute;
+    top: 200px;
+    left: 20px;
+    max-width: 500px;
+}
+
+.img2 {
+    position: absolute;
+    top: 200px;
+    left: 765px;
+    max-width: 500px;
+    max-height: 300px;
+}
+
+img {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    height: 300px;
+    width: 500px;
+}
+
+figcaption {
+    background-color: black;
+    color: white;
+    font-style: italic;
+    padding: 2px;
+    text-align: center;
+}
+
+.tweet {
+    position: absolute;
+    top: 650px;
+    left: 20px;
+    background: white;
+    width: 660px;
+    height: 150px;
+}
+
+.tweet2 {
+    position: absolute;
+    top: 650px;
+    left: 765px;
+    background: white;
+    width: 660px;
+    height: 150px;
+}
+
+.filterSimilar {
+    position: absolute;
+    top: 20px;
+    right: 235px;
+}
+
+.searchLoading {
+    position: absolute;
+    top: 30px;
+    left: 100px
+}
+
+.buttonLoading {
+    position: absolute;
+    top: 30px;
+    left: 765px;
+}
