@@ -16,7 +16,8 @@ function mostSimilar(data, currentValue, planetName, res, value) {
     let planet = planetName;
     for (let i = 0; i < len; i++) {
         currentDiff = Math.abs(currentValue - data[i][value]);
-        if ((currentDiff < diff) && (planetName != data[i].englishName) && data[i].isPlanet) {
+        if ((currentDiff < diff) && (planetName != data[i].englishName) && data[i].isPlanet
+            && data[i].englishName != "136472 Makemake" && data[i].englishName != "Pluto") {
             planet = data[i].englishName
             diff = currentDiff
         }

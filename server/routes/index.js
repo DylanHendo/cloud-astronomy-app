@@ -24,11 +24,9 @@ router.get('/api', async function (req, res, next) {
 
 // when user hits gravity button, 
 router.get('/api/gravity', function (req, res) {
-
     const currentGravity = req.query.gravity;
     const planetName = req.query.planet;
     filter.filterGravity(currentGravity, planetName, res);
-
 });
 
 // when user hits escape button, 
@@ -51,45 +49,6 @@ router.get('/api/density', function (req, res) {
     const planetName = req.query.planet;
     filter.filterDensity(currentDensity, planetName, res);
 });
-
-
-/**
- * Sends request to NASA's API for images relating to planet query
- * @param {string} planet Planet query made by user
- */
-function getImagesNASA(planet) {
-
-    let url = `https://images-api.nasa.gov/search?q=${planet}&keywords=${planet}&media_type=image&year_start=2010`;
-
-    const maxReturn = 99;   // it can only return max 100 data objects
-    let randomNum;
-
-    return axios.get(url)
-        .then((response) => response.data)
-        .then(imgData => {
-
-            let count = imgData.collection.metadata.total_hits;    // number of images returned
-            if (count < maxReturn) {
-                randomNum = Math.floor(Math.random() * count);
-            } else {
-                randomNum = Math.floor(Math.random() * maxReturn);
-            }
-
-            let imgTitle = imgData.collection.items[randomNum].data[0].title;
-            let imgLink = imgData.collection.items[randomNum].links[0].href;
-
-            let relevantData = {
-                title: imgTitle,
-                link: imgLink
-            };
-
-            return relevantData;
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-
-}
 
 
 /**
@@ -128,6 +87,52 @@ function getPlanetData(planet) {
             return arr;
         })
         .catch((error) => console.log(error));
+}
+
+
+/**
+ * Sends request to NASA's API for images relating to planet query
+ * @param {string} planet Planet query made by user
+ */
+function getImagesNASA(planet) {
+
+    let url = `https://images-api.nasa.gov/search?q=${planet}&keywords=${planet}&media_type=image&year_start=2010`;
+
+    const maxReturn = 99;   // it can only return max 100 data objects
+    let randomNum;
+
+    return axios.get(url)
+        .then((response) => response.data)
+        .then(imgData => {
+
+            let count = imgData.collection.metadata.total_hits;    // number of images returned
+            if (count < maxReturn) {
+                randomNum = Math.floor(Math.random() * count);
+            } else {
+                randomNum = Math.floor(Math.random() * maxReturn);
+            }
+
+            let imgTitle = "";
+            let imgLink = "";
+
+            // if error, return abritrary data
+            try {
+                imgData.collection.items[randomNum].data[0].title;
+                imgData.collection.items[randomNum].links[0].href;
+            } catch (err) {
+                imgTitle = "N/A";
+                imgLink = "N/A"
+            }
+
+            let relevantData = {
+                title: imgTitle,
+                link: imgLink
+            };
+
+            return relevantData;
+        })
+        .catch((error) => console.log(error));
+
 }
 
 

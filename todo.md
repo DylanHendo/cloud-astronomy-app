@@ -1,6 +1,6 @@
 * General
     [] comments
-    [] git repo
+    [X] git repo
     [] report
     [] testing
 
@@ -17,13 +17,13 @@
     [] error handling 
         [] no value entered
         [] number entered
-    [] filtering by density for neptune not working ??
-        [] it returns a dwarf planet "Makemake" with 1.4 density
-        [] && data[i].enlighsName != "136472 Makemake"
+    [X] filtering by density for neptune not working ??
+        [X] it returns a dwarf planet "Makemake" with 1.4 density
+        [X] && data[i].enlighsName != "136472 Makemake"
 
 * Client
     [X] search bar
-        [] error handling
+        [X] error handling
         [X] loading bar
     [X] get correctly formatted data object from server
     [X] create a grid
@@ -31,8 +31,7 @@
         [X] add planet name to table
     [X] display NASA image
         [X] display 2 random
-    [X] style box for tweets
-    [] try and embed tweets
+    [] style box for tweets
     [X] make buttons allowing comparison between planets
         [X] add error handling
             [X] hitting buttons before planet has been searched
