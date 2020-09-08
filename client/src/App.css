@@ -15,31 +15,29 @@
 
 .planet-search {
     position: absolute;
-    top: 20px;
-    left: 100px;
+    top: 50px;
+    left: 20px;
 }
 
 .img1 {
     position: absolute;
-    top: 200px;
-    left: 20px;
-    max-width: 500px;
+    top: 170px;
+    left: 0px;
 }
 
 .img2 {
     position: absolute;
-    top: 200px;
-    left: 765px;
-    max-width: 500px;
-    max-height: 300px;
+    top: 170px;
+    left: 750px;
 }
 
 img {
     border: 1px solid #ddd;
     border-radius: 4px;
     padding: 5px;
-    height: 300px;
-    width: 500px;
+    height: 350px;
+    width: 600px;
+    display: table;
 }
 
 figcaption {
@@ -47,7 +45,7 @@ figcaption {
     color: white;
     font-style: italic;
     padding: 2px;
-    text-align: center;
+    width: 600px;
 }
 
 .tweet {
@@ -70,18 +68,24 @@ figcaption {
 
 .filterSimilar {
     position: absolute;
-    top: 20px;
-    right: 235px;
+    top: 10px;
+    right: 220px;
+}
+
+.filterDifferent {
+    position: absolute;
+    top: 50px;
+    right: 220px;
 }
 
 .searchLoading {
     position: absolute;
-    top: 30px;
-    left: 100px
+    top: 20px;
+    left: 350px
 }
 
 .buttonLoading {
     position: absolute;
-    top: 30px;
-    left: 765px;
+    top: 5px;
+    right: 80px;
 }

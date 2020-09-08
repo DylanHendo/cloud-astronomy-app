@@ -47,11 +47,14 @@ function App() {
         username: "Name"
     });
 
+    let IP = window.location.origin;
+    let port = 5000;
+    let ec2 = `${IP}:${port}`;
+
     // get data from backend, display on LHS
     const callAPI = () => {
         setSearchLoading(true);   // data is loading
-        // let url = `http://localhost:5000/api?planet=${text}`;
-        let url = `${window.location.origin}/api?planet=${text}`;
+        let url = `http://localhost:5000/api?planet=${text}`;
         fetch(url)
             .then(res => res.json())
             .then(imgData => {
@@ -68,8 +71,8 @@ function App() {
      * Fetch data from backend related to planetName, and display on RHS of screen
      * @param {String} planetName Name of planet returned from performing filter
      */
-    const getFilteredData = (planetName) => {
-        let url = `${window.location.origin}/api?planet=${planetName}`;
+    const displayFilteredData = (planetName) => {
+        let url = `http://localhost:5000/api?planet=${planetName}`;
         fetch(url)
             .then(res => res.json())
             .then(queriedData => {
@@ -82,21 +85,23 @@ function App() {
     }
 
     /**
-     * Return name of planet with most similar attibute, then that name is used to get all the
-     * relevant data about it (imgs, data, tweets)
+     * Function to be called when user hits one of the buttons for filtering the data. 
+     * This function fetch's from different routes, depending on which planet characteristic
+     * is requested and which filter mode.
+     * @param {String} characteristic The planet data being filtered (e.g. gravity, radius, etc.)
+     * @param {String} mode How the data is being filtered ("similar" or "different")
      */
-    const filterGravity = () => {
+    const filter = (characteristic, mode) => {
         try {
             setButtonLoading(true);
-            let currentGravity = rowData[0].gravity;
+            let currentValue = rowData[0][characteristic];
             let currentPlanet = rowData[0].name;
-            let url = `${window.location.origin}/api/gravity?gravity=${currentGravity}&planet=${currentPlanet}`;
+            let base = "http://localhost:5000";
+            let query = `/api/${characteristic}?${characteristic}=${currentValue}&planet=${currentPlanet}&filter=${mode}`;
+            let url = base + query;
             fetch(url)
                 .then(res => res.json())
-                .then(planetName => {
-                    getFilteredData(planetName)
-                    // setButtonLoading(false);
-                })
+                .then(planetName => displayFilteredData(planetName))
                 .then(() => setButtonLoading(false))
                 .catch(e => console.log(e))
         } catch (err) {
@@ -104,64 +109,6 @@ function App() {
             setButtonLoading(false);
         }
     }
-
-    const filterEscape = () => {
-        try {
-            setButtonLoading(true);
-            let currentEscape = rowData[0].escape;
-            let currentPlanet = rowData[0].name;
-            let url = `${window.location.origin}/api/escape?escape=${currentEscape}&planet=${currentPlanet}`;
-            fetch(url)
-                .then(res => res.json())
-                .then(planetName => {
-                    getFilteredData(planetName);
-                    // setButtonLoading(false);
-                })
-                .then(() => setButtonLoading(false))
-                .catch(e => console.log(e))
-        } catch (err) {
-            console.log(err);
-            setButtonLoading(false);
-        }
-    }
-
-    const filterRadius = () => {
-        try {
-            setButtonLoading(true);
-            let currentRadius = rowData[0].radius;
-            let currentPlanet = rowData[0].name;
-            let url = `${window.location.origin}/api/radius?radius=${currentRadius}&planet=${currentPlanet}`;
-            fetch(url)
-                .then(res => res.json())
-                .then(planetName => {
-                    getFilteredData(planetName);
-                    // setButtonLoading(false);
-                })
-                .then(() => setButtonLoading(false))
-                .catch(e => console.log(e))
-        } catch (err) {
-            console.log(err);
-            setButtonLoading(false);
-        }
-    }
-
-    const filterDensity = () => {
-        try {
-            setButtonLoading(true);
-            let currentDensity = rowData[0].density;
-            let currentPlanet = rowData[0].name;
-            let url = `${window.location.origin}/api/density?density=${currentDensity}&planet=${currentPlanet}`;
-            fetch(url)
-                .then(res => res.json())
-                .then(planetName => getFilteredData(planetName))
-                .then(() => setButtonLoading(false))
-                .catch(e => console.log(e))
-        } catch (err) {
-            console.log(err);
-            setButtonLoading(false);
-        }
-    }
-
 
     return (
         <div className="App">
@@ -181,27 +128,36 @@ function App() {
                                 setText(event.target.value)
                             }}
                             style={{
-                                width: 200,
-                                height: 25
+                                width: 250,
+                                height: 30
                             }}
-                        />
+                        />{' '}
                         <button
                             style={{
-                                height: 25
+                                height: 30
                             }}>Submit</button>
                     </form>{' '}
                 </div>
                 <h6 className="searchLoading">{searchLoading ? "LOADING..." : " "}</h6>
 
 
-                <h5 style={{ position: "absolute", top: "-10px", right: "510px" }}>Most Similar By:</h5>
+                <h5 style={{ position: "absolute", top: "-20px", right: "510px" }}>Most Similar By:</h5>
                 <div className="filterSimilar">
-                    <button onClick={filterGravity}>Gravity</button>{' '}
-                    <button onClick={filterEscape}>Escape</button>{' '}
-                    <button onClick={filterRadius}>Radius</button>{' '}
-                    <button onClick={filterDensity}>Density</button>{' '}
+                    <button onClick={() => filter("gravity", "similar")}>Gravity</button>{' '}
+                    <button onClick={() => filter("escape", "similar")}>Escape</button>{' '}
+                    <button onClick={() => filter("radius", "similar")}>Radius</button>{' '}
+                    <button onClick={() => filter("density", "similar")}>Density</button>{' '}
                 </div>
-                <h5 className="buttonLoading">{buttonLoading ? "LOADING..." : " "}</h5>
+                <h6 className="buttonLoading">{buttonLoading ? "LOADING..." : " "}</h6>
+
+                <h5 style={{ position: "absolute", top: "20px", right: "489px" }}>Most Different By:</h5>
+                <div className="filterDifferent">
+                    <button onClick={() => filter("gravity", "different")}>Gravity</button>{' '}
+                    <button onClick={() => filter("escape", "different")}>Escape</button>{' '}
+                    <button onClick={() => filter("radius", "different")}>Radius</button>{' '}
+                    <button onClick={() => filter("density", "different")}>Density</button>{' '}
+                </div>
+                <h6 className="buttonLoading">{buttonLoading ? "LOADING..." : " "}</h6>
 
 
                 <div className="img1">

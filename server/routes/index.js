@@ -1,13 +1,13 @@
 const express = require('express');
 const axios = require("axios");
 const router = express.Router();
-const filter = require('./filter');   // import module for filtering functions
+const filterSimilar = require('./filterSimilar');   // import module for filtering functions
+const filterDifferent = require('./filterDifferent');   // import module for filtering functions
 require('dotenv').config()
 
 // search page
 router.get('/api', async function (req, res, next) {
     const planet = req.query.planet;
-
     const a = getImagesNASA(planet);
     const b = getPlanetData(planet);
     const c = getTweets(planet);
@@ -20,40 +20,52 @@ router.get('/api', async function (req, res, next) {
     res.send(dataObj);
 });
 
-/**
- * 
- */
+
 router.get('/api/gravity', function (req, res) {
     const currentGravity = req.query.gravity;
     const planetName = req.query.planet;
-    filter.filterGravity(currentGravity, planetName, res);
+    const filter = req.query.filter;
+    if (filter === "similar")
+        filterSimilar.filterGravitySimilar(currentGravity, planetName, res);
+    else if (filter == "different")
+        filterDifferent.filterGravityDifferent(currentGravity, planetName, res);
+    else
+        console.log("Error ??");
 });
 
-/**
- *  */
+
 router.get('/api/escape', function (req, res) {
     const currentEscape = req.query.escape;
     const planetName = req.query.planet;
-    filter.filterEscape(currentEscape, planetName, res);
+    const filter = req.query.filter;
+    if (filter === "similar")
+        filterSimilar.filterEscapeSimilar(currentEscape, planetName, res);
+    else if (filter === "different")
+        filterDifferent.filterEscapeDifferent(currentEscape, planetName, res);
 });
 
-/**
- * 
- */
+
 router.get('/api/radius', function (req, res) {
     const currentRadius = req.query.radius;
     const planetName = req.query.planet;
-    filter.filterRadius(currentRadius, planetName, res);
+    const filter = req.query.filter;
+    if (filter === "similar")
+        filterSimilar.filterRadiusSimilar(currentRadius, planetName, res);
+    else if (filter === "different")
+        filterDifferent.filterRadiusDifferent(currentRadius, planetName, res);
 });
 
-/**
- * 
- */
+
 router.get('/api/density', function (req, res) {
     const currentDensity = req.query.density;
     const planetName = req.query.planet;
-    filter.filterDensity(currentDensity, planetName, res);
+    const filter = req.query.filter;
+    if (filter === "similar")
+        filterSimilar.filterDensitySimilar(currentDensity, planetName, res);
+    else if (filter === "different")
+        filterDifferent.filterDensityDifferent(currentDensity, planetName, res);
 });
+
 
 
 /**

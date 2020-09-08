@@ -2,7 +2,6 @@
     [] comments
     [X] git repo
     [] report
-    [] testing
 
 * Server
     [X] get correct data back from NASA
@@ -42,11 +41,11 @@
             [X] escape 
             [X] radius
             [X] density 
-        [] find most different ??
-            [] gravity
-            [] escape 
-            [] radius
-            [] density
+        [X] find most different 
+            [X] gravity
+            [X] escape 
+            [X] radius
+            [X] density
 
 * Deployment
     [] create bare AWS instance
