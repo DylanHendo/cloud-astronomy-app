@@ -22,6 +22,8 @@
 
 * Client
     [] window.location.origin
+    [] error msg when clicking button with no previous data
+    [X] click on NASA img to take u to NASA site
     [X] search bar
         [X] error handling
         [X] loading bar
@@ -31,7 +33,7 @@
         [X] add planet name to table
     [X] display NASA image
         [X] display 2 random
-    [] style boxes for tweets
+    [X] style boxes for tweets
     [X] make buttons allowing comparison between planets
         [X] add error handling
             [X] hitting buttons before planet has been searched

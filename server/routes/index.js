@@ -1,8 +1,8 @@
 const express = require('express');
 const axios = require("axios");
 const router = express.Router();
-const filterSimilar = require('./filterSimilar');   // import module for filtering functions
-const filterDifferent = require('./filterDifferent');   // import module for filtering functions
+const filterSimilar = require('./filterSimilar');
+const filterDifferent = require('./filterDifferent');
 require('dotenv').config()
 
 // search page

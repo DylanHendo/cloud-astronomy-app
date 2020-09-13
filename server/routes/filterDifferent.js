@@ -15,6 +15,7 @@ function mostDifferent(data, currentValue, planetName, res, value) {
     let planet = planetName;
     for (let i = 0; i < len; i++) {
         currentDiff = Math.abs(currentValue - data[i][value]);
+        // Makemake and Pluto are 2 dwarf planets I have chosen to exclude
         if ((currentDiff > diff) && (planetName != data[i].englishName) && data[i].isPlanet
             && data[i].englishName != "136472 Makemake" && data[i].englishName != "Pluto") {
             planet = data[i].englishName

@@ -4,7 +4,7 @@ import './App.css';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-balham-dark.css';
 
-// widths for the AgGrid
+// widths for the AgGrid columns
 const nameWidth = 75, gravWidth = 130, escWidth = 120, radWidth = 120, densityWidth = 130, moonWidth = 80;
 const totalWidth = nameWidth + gravWidth + escWidth + radWidth + densityWidth + moonWidth;
 
@@ -28,8 +28,8 @@ function App() {
     const [link2, setLink2] = useState("");        // NASA img RHS
     const [caption2, setCaption2] = useState("");  // NASA caption RHS
 
-    const [rowData, setRowData] = useState([]);    // planet data table
-    const [rowData2, setRowData2] = useState([])   // planet data for most similar planet
+    const [rowData, setRowData] = useState([]);    // planet data table LHS
+    const [rowData2, setRowData2] = useState([])   // planet data table RHS
 
     // LHS tweet data
     const [tweetData, setTweetData] = useState({
@@ -162,14 +162,18 @@ function App() {
 
                 <div className="img1">
                     <figure>
-                        <img src={link} alt="Space IMG" />
+                        <a href={link} target="_blank" rel="noopener noreferrer">
+                            <img src={link} alt="Space IMG" />
+                        </a>
                         <figcaption>{caption}</figcaption>
                     </figure>
                 </div>
 
                 <div className="img2">
                     <figure>
-                        <img src={link2} alt="Space IMG" />
+                        <a href={link2} target="_blank" rel="noopener noreferrer">
+                            <img src={link2} alt="Space IMG" />
+                        </a>
                         <figcaption>{caption2}</figcaption>
                     </figure>
                 </div>
@@ -200,6 +204,7 @@ function App() {
                         domLayout={"autoHeight"}
                     />
                 </div>
+
 
                 <div className="tweet">
                     <small style={{ color: "black", textAlign: "left", paddingLeft: '15px' }}>@{tweetData.username}</small>
