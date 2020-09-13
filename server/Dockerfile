@@ -11,7 +11,7 @@ WORKDIR /server
 RUN npm install
 
 # Make port 80 available to the world outside this container (or should it be 5000 ??)
-EXPOSE 80
+EXPOSE 5000
 
 # Run the app when the container launches
 CMD ["npm", "start"]

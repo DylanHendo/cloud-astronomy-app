@@ -47,9 +47,9 @@ function App() {
         username: "Name"
     });
 
-    let IP = window.location.origin;
-    let port = 5000;
-    let ec2 = `${IP}:${port}`;
+    const IP = window.location.origin;
+    const port = 5000;
+    const ec2 = `${IP}:${port}`;
 
     // get data from backend, display on LHS
     const callAPI = () => {
@@ -116,7 +116,6 @@ function App() {
                 <div className="planet-search">
                     <form onSubmit={event => {
                         event.preventDefault();
-                        console.log(text);
                         callAPI();
                     }}>
                         <input
