@@ -9,6 +9,9 @@ var indexRouter = require('./routes/index');
 
 var app = express();
 
+// Serve out any static assets correctly
+app.use(express.static('../client/build'))
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -37,5 +40,9 @@ app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error');
 });
+
+app.use((req, res) => {
+    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+})
 
 module.exports = app;

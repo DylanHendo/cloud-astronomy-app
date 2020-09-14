@@ -51,10 +51,12 @@ function App() {
     const port = 5000;
     const ec2 = `${IP}:${port}`;
 
+    //http://localhost:5000
+
     // get data from backend, display on LHS
     const callAPI = () => {
         setSearchLoading(true);   // data is loading
-        let url = `http://localhost:5000/api?planet=${text}`;
+        let url = `/api?planet=${text}`;
         fetch(url)
             .then(res => res.json())
             .then(imgData => {
@@ -72,7 +74,7 @@ function App() {
      * @param {String} planetName Name of planet returned from performing filter
      */
     const displayFilteredData = (planetName) => {
-        let url = `http://localhost:5000/api?planet=${planetName}`;
+        let url = `/api?planet=${planetName}`;
         fetch(url)
             .then(res => res.json())
             .then(queriedData => {
@@ -96,10 +98,10 @@ function App() {
             setButtonLoading(true);
             let currentValue = rowData[0][characteristic];
             let currentPlanet = rowData[0].name;
-            let base = "http://localhost:5000";
+            //let base = "http://localhost:5000";
             let query = `/api/${characteristic}?${characteristic}=${currentValue}&planet=${currentPlanet}&filter=${mode}`;
-            let url = base + query;
-            fetch(url)
+            //let url = base + query;
+            fetch(query)
                 .then(res => res.json())
                 .then(planetName => displayFilteredData(planetName))
                 .then(() => setButtonLoading(false))
