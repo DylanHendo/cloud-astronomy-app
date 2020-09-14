@@ -5,15 +5,15 @@ const filterSimilar = require('./filterSimilar');
 const filterDifferent = require('./filterDifferent');
 require('dotenv').config()
 
-// search page
+// search for planets
 router.get('/api', async function (req, res, next) {
     const planet = req.query.planet;
-    const a = getImagesNASA(planet);
-    const b = getPlanetData(planet);
-    const c = getTweets(planet);
+    const imgData = getImagesNASA(planet);
+    const planetData = getPlanetData(planet);
+    const tweetData = getTweets(planet);
 
     // await values from promise until resolved, and able to send to client
-    const result = await Promise.all([a, b, c]);
+    const result = await Promise.all([imgData, planetData, tweetData]);
     const dataObj = {
         data: result
     };
@@ -21,6 +21,10 @@ router.get('/api', async function (req, res, next) {
 });
 
 
+/**
+ * Filter gravity, either by most similar or most different, 
+ * depending on the button clicked.
+ */
 router.get('/api/gravity', function (req, res) {
     const currentGravity = req.query.gravity;
     const planetName = req.query.planet;
@@ -34,6 +38,10 @@ router.get('/api/gravity', function (req, res) {
 });
 
 
+/**
+ * Filter escape velocity, either by most similar or most different, 
+ * depending on the button clicked.
+ */
 router.get('/api/escape', function (req, res) {
     const currentEscape = req.query.escape;
     const planetName = req.query.planet;
@@ -45,6 +53,10 @@ router.get('/api/escape', function (req, res) {
 });
 
 
+/**
+ * Filter radius, either by most similar or most different, 
+ * depending on the button clicked.
+ */
 router.get('/api/radius', function (req, res) {
     const currentRadius = req.query.radius;
     const planetName = req.query.planet;
@@ -56,6 +68,10 @@ router.get('/api/radius', function (req, res) {
 });
 
 
+/**
+ * Filter density, either by most similar or most different, 
+ * depending on the button clicked.
+ */
 router.get('/api/density', function (req, res) {
     const currentDensity = req.query.density;
     const planetName = req.query.planet;
@@ -114,7 +130,7 @@ function getImagesNASA(planet) {
 
     let url = `https://images-api.nasa.gov/search?q=${planet}&keywords=${planet}&media_type=image&year_start=2010`;
 
-    const maxReturn = 99;   // it can only return max 100 data objects
+    const maxReturn = 99;   // NASA can only return max 100 data objects
     let randomNum;
 
     return axios.get(url)

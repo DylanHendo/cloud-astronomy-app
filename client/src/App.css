@@ -81,11 +81,20 @@ figcaption {
 .searchLoading {
     position: absolute;
     top: 20px;
-    left: 350px
+    left: 350px;
+    color: lime;
 }
 
 .buttonLoading {
     position: absolute;
-    top: 5px;
+    top: 0px;
     right: 80px;
+    color: lime;
+}
+
+.errorMsg {
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    color: red;
 }

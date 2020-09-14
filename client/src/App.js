@@ -20,8 +20,10 @@ const columns = [
 
 function App() {
     const [text, setText] = useState("");          // search bar
+
     const [searchLoading, setSearchLoading] = useState(false);
     const [buttonLoading, setButtonLoading] = useState(false);
+    const [filterError, setFilterError] = useState(false);
 
     const [link, setLink] = useState("");          // NASA img LHS
     const [caption, setCaption] = useState("");    // NASA caption LHS
@@ -46,12 +48,6 @@ function App() {
         text: "Text",
         username: "Name"
     });
-
-    const IP = window.location.origin;
-    const port = 5000;
-    const ec2 = `${IP}:${port}`;
-
-    //http://localhost:5000
 
     // get data from backend, display on LHS
     const callAPI = () => {
@@ -93,22 +89,24 @@ function App() {
      * @param {String} characteristic The planet data being filtered (e.g. gravity, radius, etc.)
      * @param {String} mode How the data is being filtered ("similar" or "different")
      */
-    const filter = (characteristic, mode) => {
+    const filter = async (characteristic, mode) => {
         try {
             setButtonLoading(true);
             let currentValue = rowData[0][characteristic];
             let currentPlanet = rowData[0].name;
-            //let base = "http://localhost:5000";
-            let query = `/api/${characteristic}?${characteristic}=${currentValue}&planet=${currentPlanet}&filter=${mode}`;
-            //let url = base + query;
-            fetch(query)
+            let url = `/api/${characteristic}?${characteristic}=${currentValue}&planet=${currentPlanet}&filter=${mode}`;
+            fetch(url)
                 .then(res => res.json())
                 .then(planetName => displayFilteredData(planetName))
                 .then(() => setButtonLoading(false))
                 .catch(e => console.log(e))
         } catch (err) {
-            console.log(err);
             setButtonLoading(false);
+
+            // display error msg for 1.5 seconds
+            setFilterError(true);
+            await new Promise(r => setTimeout(r, 1500));
+            setFilterError(false);
         }
     }
 
@@ -159,6 +157,7 @@ function App() {
                     <button onClick={() => filter("density", "different")}>Density</button>{' '}
                 </div>
                 <h6 className="buttonLoading">{buttonLoading ? "LOADING..." : " "}</h6>
+                <h6 className="errorMsg">{filterError ? "ERROR: NO PRIOR DATA" : " "}</h6>
 
 
                 <div className="img1">
