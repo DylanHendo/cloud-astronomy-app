@@ -24,6 +24,8 @@ function App() {
 
     const [searchLoading, setSearchLoading] = useState(false);
     const [buttonLoading, setButtonLoading] = useState(false);
+
+    const [searchError, setSearchError] = useState(false);
     const [filterError, setFilterError] = useState(false);
 
     const [link, setLink] = useState("");          // NASA img LHS
@@ -39,19 +41,29 @@ function App() {
     const [tweetTwoID, setTweetTwoID] = useState("1225902606607945738");     // RHS tweet data
 
     // get data from backend, display on LHS
-    const callAPI = () => {
-        setSearchLoading(true);   // data is loading
-        let url = `/api?planet=${text}`;
-        fetch(url)
-            .then(res => res.json())
-            .then(imgData => {
-                setLink(imgData.data[0].link);
-                setCaption(imgData.data[0].title);
-                setRowData(imgData.data[1]);
-                setTweetOneID(imgData.data[2].id);
-                setSearchLoading(false);  // data is loaded
-            })
-            .catch(err => console.log(err))
+    const callAPI = async () => {
+        try {
+            if (text === "" || !isNaN(text)) throw Error
+            setSearchLoading(true);   // data is loading
+            let url = `/api?planet=${text}`;
+            fetch(url)
+                .then(res => res.json())
+                .then(imgData => {
+                    setLink(imgData.data[0].link);
+                    setCaption(imgData.data[0].title);
+                    setRowData(imgData.data[1]);
+                    setTweetOneID(imgData.data[2].id);
+                    setSearchLoading(false);  // data is loaded
+                })
+                .catch(err => console.log(err));
+        } catch (e) {
+            setSearchLoading(false);
+
+            // display error msg for 1.5 seconds
+            setSearchError(true);
+            await new Promise(r => setTimeout(r, 1500));
+            setSearchError(false);
+        }
     }
 
     /**
@@ -127,6 +139,7 @@ function App() {
                     </form>{' '}
                 </div>
                 <h6 className="searchLoading">{searchLoading ? "LOADING..." : " "}</h6>
+                <h6 className="searchErrorMsg">{searchError ? "ERROR: ENTER A PLANET" : " "}</h6>
 
 
                 <h5 style={{ position: "absolute", top: "-20px", right: "510px" }}>Most Similar By:</h5>
@@ -146,7 +159,7 @@ function App() {
                     <button style={{ background: "white" }} onClick={() => filter("density", "different")}>Density</button>{' '}
                 </div>
                 <h6 className="buttonLoading">{buttonLoading ? "LOADING..." : " "}</h6>
-                <h6 className="errorMsg">{filterError ? "ERROR: NO PRIOR DATA" : " "}</h6>
+                <h6 className="btnErrorMsg">{filterError ? "ERROR: NO PRIOR DATA" : " "}</h6>
 
 
                 <div className="img1">
