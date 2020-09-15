@@ -7,7 +7,7 @@ const axios = require("axios");
  * @param {int} currentValue Value being compared to (what was attained from search query)
  * @param {String} planetName Name of planet that was queried
  * @param {Object} res Response object
- * @param {String} value Name of JSON object key of planetary attribute being filtered
+ * @param {String} value Name of JSON object key of planetary attribute being filtered (e.g gravity)
  */
 function mostDifferent(data, currentValue, planetName, res, value) {
     let len = data.length;
@@ -18,16 +18,16 @@ function mostDifferent(data, currentValue, planetName, res, value) {
         // Makemake and Pluto are 2 dwarf planets I have chosen to exclude
         if ((currentDiff > diff) && (planetName != data[i].englishName) && data[i].isPlanet
             && data[i].englishName != "136472 Makemake" && data[i].englishName != "Pluto") {
-            planet = data[i].englishName
-            diff = currentDiff
+            planet = data[i].englishName;
+            diff = currentDiff;
         }
     }
-    finalPlanet = planet
+    finalPlanet = planet;
     res.json(finalPlanet);
 }
 
 /**
- * Get the planet name belonging to the planet that has the closest gravity to the 
+ * Get the planet name belonging to the planet that has the largest difference in gravity to the 
  * current gravity of the searched planet.
  * @param {int} currentGravity Gravity of queried planet
  * @param {string} planetName Name of queried planet
@@ -49,7 +49,7 @@ function filterGravityDifferent(currentGravity, planetName, res) {
 
 
 /**
- * Get the planet name belonging to the planet that has the closest escape velocity to the 
+ * Get the planet name belonging to the planet that has the largest difference in escape velocity to the 
  * current excape velocity of the searched planet.
  * @param {int} currentEscape Escape velocity of queried planet
  * @param {string} planetName Name of queried planet
@@ -70,7 +70,7 @@ function filterEscapeDifferent(currentEscape, planetName, res) {
 
 
 /**
- * Get the planet name belonging to the planet that has the closest radius to the 
+ * Get the planet name belonging to the planet that has the largest difference in radius to the 
  * current radius of the searched planet.
  * @param {int} currentRadius Radius of queried planet
  * @param {string} planetName Name of queried planet
@@ -91,7 +91,7 @@ function filterRadiusDifferent(currentRadius, planetName, res) {
 
 
 /**
- * Get the planet name belonging to the planet that has the closest density to the 
+ * Get the planet name belonging to the planet that has the largest difference in density to the 
  * current density of the searched planet.
  * @param {int} currentDensity Density of queried planet
  * @param {string} planetName Name of queried planet

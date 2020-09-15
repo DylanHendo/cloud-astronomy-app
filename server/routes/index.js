@@ -33,8 +33,6 @@ router.get('/api/gravity', function (req, res) {
         filterSimilar.filterGravitySimilar(currentGravity, planetName, res);
     else if (filter == "different")
         filterDifferent.filterGravityDifferent(currentGravity, planetName, res);
-    else
-        console.log("Error ??");
 });
 
 
@@ -94,10 +92,12 @@ function getPlanetData(planet) {
         .then((response) => response.data)
         .then(planetData => {
             const name = planetData.englishName;
-            const gravity = planetData.gravity;    //gravity (m/s ^ 2)
+            const gravity = planetData.gravity;    //gravity (m/s^2)
             const escape = planetData.escape;      //escape (m/s)           
             const radius = planetData.meanRadius;  //radius (km)
-            const density = planetData.density;    // g . cm^3
+            const density = planetData.density;    //density (g . cm^3)
+
+            // catch error if planet has no moons
             let numMoons = 0;
             try {
                 numMoons = planetData.moons.length; // num moons
@@ -105,6 +105,7 @@ function getPlanetData(planet) {
                 numMoons = 0;   // planet has no moons
             }
 
+            // package up data
             const arr = [
                 {
                     name: name,
@@ -138,16 +139,17 @@ function getImagesNASA(planet) {
         .then(imgData => {
 
             let count = imgData.collection.metadata.total_hits;    // number of images returned
+
+            // if less < 100 objects returned
             if (count < maxReturn) {
                 randomNum = Math.floor(Math.random() * count);
             } else {
                 randomNum = Math.floor(Math.random() * maxReturn);
             }
 
+            // if error with data returned, send abritrary data
             let imgTitle = "";
             let imgLink = "";
-
-            // if error with data returned, send abritrary data
             try {
                 imgTitle = imgData.collection.items[randomNum].data[0].title;
                 imgLink = imgData.collection.items[randomNum].links[0].href;

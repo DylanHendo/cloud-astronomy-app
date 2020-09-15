@@ -18,11 +18,11 @@ function mostSimilar(data, currentValue, planetName, res, value) {
         // Makemake and Pluto are 2 dwarf planets I have chosen to exclude
         if ((currentDiff < diff) && (planetName != data[i].englishName) && data[i].isPlanet
             && data[i].englishName != "136472 Makemake" && data[i].englishName != "Pluto") {
-            planet = data[i].englishName
-            diff = currentDiff
+            planet = data[i].englishName;
+            diff = currentDiff;
         }
     }
-    finalPlanet = planet
+    finalPlanet = planet;
     res.json(finalPlanet);
 }
 
