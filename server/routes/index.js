@@ -171,7 +171,7 @@ function getImagesNASA(planet) {
 
 
 /**
- * Get most recent tweets from Twitter relating to planet query
+ * Get id of random tweet from the most recent tweets from Twitter, relating to planet query
  * @param {string} planet Planet query made by user
  */
 function getTweets(planet) {
@@ -196,25 +196,14 @@ function getTweets(planet) {
                 randomNum = Math.floor(Math.random() * len);
             }
 
-            let time = "", id = 0, info = "", user = "";
+            let id = "";
             try {
-                time = twitterData.statuses[randomNum].created_at;
-                id = twitterData.statuses[randomNum].id;
-                info = twitterData.statuses[randomNum].text;
-                user = twitterData.statuses[randomNum].user.screen_name;
+                id = twitterData.statuses[randomNum].id_str;
             } catch (err) {
-                time = "time";
-                info = "text";
-                user = "user";
+                id = "1225902606607945738"; // if error returning id, set to default ID
             }
 
-            let obj = {
-                created_at: time,
-                id: id,
-                text: info,
-                username: user
-            }
-
+            let obj = { id: id }
             return obj;
         })
         .catch(err => console.log(err));

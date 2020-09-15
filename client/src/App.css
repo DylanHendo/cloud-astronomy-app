@@ -48,22 +48,18 @@ figcaption {
     width: 600px;
 }
 
-.tweet {
+.tweet1 {
     position: absolute;
-    top: 650px;
-    left: 20px;
-    background: white;
-    width: 660px;
-    height: 150px;
+    top: 625px;
+    left: 50px;
+    width: 800px;
 }
 
 .tweet2 {
     position: absolute;
-    top: 650px;
-    left: 765px;
-    background: white;
-    width: 660px;
-    height: 150px;
+    top: 625px;
+    left: 820px;
+    width: 800px;
 }
 
 .filterSimilar {

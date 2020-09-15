@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { AgGridReact } from "ag-grid-react";
+import TweetEmbed from 'react-tweet-embed';
 import './App.css';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-balham-dark.css';
@@ -31,23 +32,11 @@ function App() {
     const [caption2, setCaption2] = useState("");  // NASA caption RHS
 
     const [rowData, setRowData] = useState([]);    // planet data table LHS
-    const [rowData2, setRowData2] = useState([])   // planet data table RHS
+    const [rowData2, setRowData2] = useState([]);   // planet data table RHS
 
-    // LHS tweet data
-    const [tweetData, setTweetData] = useState({
-        created_at: "Date",
-        id: 0,
-        text: "Text",
-        username: "Name"
-    });
-
-    // RHS tweet data
-    const [tweetData2, setTweetData2] = useState({
-        created_at: "Date",
-        id: 0,
-        text: "Text",
-        username: "Name"
-    });
+    // 1225902606607945738 is a tweet made by twitter saying "Test"
+    const [tweetOneID, setTweetOneID] = useState("1225902606607945738");    // LHS tweet data
+    const [tweetTwoID, setTweetTwoID] = useState("1225902606607945738");     // RHS tweet data
 
     // get data from backend, display on LHS
     const callAPI = () => {
@@ -59,7 +48,7 @@ function App() {
                 setLink(imgData.data[0].link);
                 setCaption(imgData.data[0].title);
                 setRowData(imgData.data[1]);
-                setTweetData(imgData.data[2]);
+                setTweetOneID(imgData.data[2].id);
                 setSearchLoading(false);  // data is loaded
             })
             .catch(err => console.log(err))
@@ -77,28 +66,28 @@ function App() {
                 setLink2(queriedData.data[0].link);
                 setCaption2(queriedData.data[0].title);
                 setRowData2(queriedData.data[1]);
-                setTweetData2(queriedData.data[2]);
+                setTweetTwoID(queriedData.data[2].id);
+                setButtonLoading(false);  // data loaded
             })
             .catch(err => console.log(err))
     }
 
     /**
      * Function to be called when user hits one of the buttons for filtering the data. 
-     * This function fetch's from different routes, depending on which planet characteristic
+     * This function fetch's from different routes, depending on which planet attribute
      * is requested and which filter mode.
-     * @param {String} characteristic The planet data being filtered (e.g. gravity, radius, etc.)
+     * @param {String} attribute The planet data being filtered (e.g. gravity, radius, etc.)
      * @param {String} mode How the data is being filtered ("similar" or "different")
      */
-    const filter = async (characteristic, mode) => {
+    const filter = async (attribute, mode) => {
         try {
             setButtonLoading(true);
-            let currentValue = rowData[0][characteristic];
+            let currentValue = rowData[0][attribute];
             let currentPlanet = rowData[0].name;
-            let url = `/api/${characteristic}?${characteristic}=${currentValue}&planet=${currentPlanet}&filter=${mode}`;
+            let url = `/api/${attribute}?${attribute}=${currentValue}&planet=${currentPlanet}&filter=${mode}`;
             fetch(url)
                 .then(res => res.json())
                 .then(planetName => displayFilteredData(planetName))
-                .then(() => setButtonLoading(false))
                 .catch(e => console.log(e))
         } catch (err) {
             setButtonLoading(false);
@@ -142,19 +131,19 @@ function App() {
 
                 <h5 style={{ position: "absolute", top: "-20px", right: "510px" }}>Most Similar By:</h5>
                 <div className="filterSimilar">
-                    <button onClick={() => filter("gravity", "similar")}>Gravity</button>{' '}
-                    <button onClick={() => filter("escape", "similar")}>Escape</button>{' '}
-                    <button onClick={() => filter("radius", "similar")}>Radius</button>{' '}
-                    <button onClick={() => filter("density", "similar")}>Density</button>{' '}
+                    <button style={{ background: "white" }} onClick={() => filter("gravity", "similar")}>Gravity</button>{' '}
+                    <button style={{ background: "white" }} onClick={() => filter("escape", "similar")}>Escape</button>{' '}
+                    <button style={{ background: "white" }} onClick={() => filter("radius", "similar")}>Radius</button>{' '}
+                    <button style={{ background: "white" }} onClick={() => filter("density", "similar")}>Density</button>{' '}
                 </div>
                 <h6 className="buttonLoading">{buttonLoading ? "LOADING..." : " "}</h6>
 
                 <h5 style={{ position: "absolute", top: "20px", right: "489px" }}>Most Different By:</h5>
                 <div className="filterDifferent">
-                    <button onClick={() => filter("gravity", "different")}>Gravity</button>{' '}
-                    <button onClick={() => filter("escape", "different")}>Escape</button>{' '}
-                    <button onClick={() => filter("radius", "different")}>Radius</button>{' '}
-                    <button onClick={() => filter("density", "different")}>Density</button>{' '}
+                    <button style={{ background: "white" }} onClick={() => filter("gravity", "different")}>Gravity</button>{' '}
+                    <button style={{ background: "white" }} onClick={() => filter("escape", "different")}>Escape</button>{' '}
+                    <button style={{ background: "white" }} onClick={() => filter("radius", "different")}>Radius</button>{' '}
+                    <button style={{ background: "white" }} onClick={() => filter("density", "different")}>Density</button>{' '}
                 </div>
                 <h6 className="buttonLoading">{buttonLoading ? "LOADING..." : " "}</h6>
                 <h6 className="errorMsg">{filterError ? "ERROR: NO PRIOR DATA" : " "}</h6>
@@ -206,18 +195,12 @@ function App() {
                 </div>
 
 
-                <div className="tweet">
-                    <small style={{ color: "black", textAlign: "left", paddingLeft: '15px' }}>@{tweetData.username}</small>
-                    <small style={{ color: "black", textAlign: "left", paddingLeft: '15px' }}>{tweetData.created_at}</small>
-                    <br />
-                    <small style={{ color: "black", textAlign: "left", paddingLeft: '15px' }}>{tweetData.text}</small>
+                <div className="tweet1">
+                    <TweetEmbed id={tweetOneID} />
                 </div>
 
                 <div className="tweet2">
-                    <small style={{ color: "black", textAlign: "left", paddingLeft: '15px' }}>@{tweetData2.username}</small>
-                    <small style={{ color: "black", textAlign: "left", paddingLeft: '15px' }}>{tweetData2.created_at}</small>
-                    <br />
-                    <small style={{ color: "black", textAlign: "left", paddingLeft: '15px' }}>{tweetData2.text}</small>
+                    <TweetEmbed id={tweetTwoID} />
                 </div>
 
             </header>
